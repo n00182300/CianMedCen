@@ -1,4 +1,9 @@
 <?php
+# @Date:   2020-11-14T19:14:33+00:00
+# @Last modified time: 2020-11-14T20:22:29+00:00
+
+
+
 
 namespace App\Models;
 
@@ -18,6 +23,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'address',
+        'phone',
         'email',
         'password',
     ];
@@ -40,4 +47,34 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function roles(){
+      return $this->belongsToMany('App\Models\Role','user_role');
+    }
+
+    public function doctor(){
+      return $this->hasOne('App\Models\Doctor');
+    }
+
+    public function patient(){
+      return $this->hasOne('App\Models\Patient');
+    }
+
+    public function authorizeRoles($roles){
+          if (is_array($roles)){
+            return $this->hasAnyRole($roles);
+          }
+          return $this->hasRoles($roles);
+        }
+
+
+        public function hasAnyRole($role){
+          return null !== $this->roles()->whereIn('name',$role)->first();
+        }
+
+        public function hasRole($role){
+          return null !== $this->roles()->where('name',$role)->first();
+        }
+
+
 }

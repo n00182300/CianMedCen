@@ -1,4 +1,9 @@
 <?php
+# @Date:   2020-11-07T15:42:41+00:00
+# @Last modified time: 2020-11-14T18:09:24+00:00
+
+
+
 
 namespace App\Http;
 
@@ -62,5 +67,6 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'role' => \App\Http\Middleware\AuthRole::class,
     ];
 }
